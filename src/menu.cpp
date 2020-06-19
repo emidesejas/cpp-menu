@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "menuText.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -90,7 +91,16 @@ Menu::~Menu()
     for (auto& item : entries_)
     {
         Item* element = item.second;
-        delete entries_[item.first];
+        Menu* submenu = dynamic_cast<Menu*>(element);
+        if (submenu != nullptr)
+        {
+            delete submenu;
+        }
+        MenuText* menutext = dynamic_cast<MenuText*>(element);
+        if (menutext != nullptr)
+        {
+            delete menutext;
+        }
     }
     entries_.clear();
 }
